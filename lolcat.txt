@@ -1,0 +1,38 @@
+import json, requests
+
+url = 'https://raw.githubusercontent.com/normansimonr/Dumb-Cogs/master/lolz/data/tranzlashun.json'
+resp = requests.get(url)
+data = json.loads(resp.text)
+
+#open and read the text file
+def translator (og_file):
+    
+    
+    file = open(og_file, "r")
+    content = file.readlines()
+
+    #initialize an empty translation stong
+    lol_text_str = ""
+
+#separate the lines into individual words
+
+    for og_line in content:
+        og_text = str(og_line)
+        og_words = og_text.split(" ")
+    
+        for key_to_lookup in og_words:
+            if key_to_lookup in data:
+                lol_word = data[key_to_lookup]
+                lol_text_str += (lol_word + " ")
+            else:
+                lol_word = key_to_lookup
+                lol_text_str += (lol_word + " ")
+            
+            lol_text_str = lol_text_str.replace('\\n', '\n')
+        
+    new_file = open(str(og_file).replace(".txt","_lolcat.txt"), "w")
+    new_file.write(lol_text_str)
+    new_file.close()
+    print ("Your translation has been saved as " +str(og_file).replace(".txt","_lolcat.txt"))
+    
+
